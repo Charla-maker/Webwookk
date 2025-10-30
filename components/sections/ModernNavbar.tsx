@@ -38,6 +38,12 @@ export const ModernNavbar = () => {
             >
               Why Us
             </a>
+            <Link
+              href="/locations"
+              className="text-gray-700 hover:text-primary font-medium transition-colors"
+            >
+              Locations
+            </Link>
             <a
               href="#testimonials"
               className="text-gray-700 hover:text-primary font-medium transition-colors"
@@ -90,6 +96,13 @@ export const ModernNavbar = () => {
             >
               Why Us
             </a>
+            <Link
+              href="/locations"
+              className="block text-gray-700 hover:text-primary font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Locations
+            </Link>
             <a
               href="#testimonials"
               className="block text-gray-700 hover:text-primary font-medium"

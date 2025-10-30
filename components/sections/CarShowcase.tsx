@@ -1,4 +1,8 @@
+'use client'
+
 import { Car, Truck, Bus } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 
 export const CarShowcase = () => {
   const carImages = [
@@ -6,19 +10,22 @@ export const CarShowcase = () => {
       alt: "Luxury Vehicle",
       title: "Luxury Vehicles",
       description: "Top dollar for premium cars",
-      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/luxury-car.jpg"
+      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/luxury-car.jpg",
+      link: "/luxury-vehicles"
     },
     {
       alt: "Family Car",
       title: "Family Cars",
       description: "Fair prices for all sedans",
-      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/family-car.jpeg"
+      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/family-car.jpeg",
+      link: "/family-cars" // Placeholder for future page
     },
     {
       alt: "SUV & 4x4",
       title: "SUVs & 4x4s",
       description: "Best offers for large vehicles",
-      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/suv-and-van.jpeg"
+      carImage: "https://c.animaapp.com/mh5qprntqjweLB/img/suv-and-van.jpeg",
+      link: "/suvs-4x4s" // Placeholder for future page
     }
   ];
 
@@ -39,14 +46,17 @@ export const CarShowcase = () => {
 
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           {carImages.map((car, index) => (
-            <div
+            <Link
               key={index}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+              href={car.link}
+              className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100 block"
             >
               <div className="relative h-64 overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800">
-                <img
+                <Image
                   src={car.carImage}
                   alt={car.alt}
+                  width={400} // Provide appropriate width
+                  height={256} // Provide appropriate height (h-64 = 256px)
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
@@ -63,7 +73,7 @@ export const CarShowcase = () => {
                   </svg>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
