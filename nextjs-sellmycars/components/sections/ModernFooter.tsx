@@ -44,9 +44,14 @@ export const ModernFooter = () => {
                 </a>
               </li>
               <li>
+                <Link href="/locations" className="text-gray-400 hover:text-primary transition-colors">
+                  Service Locations
+                </Link>
+              </li>
+              <li>
                 <a href="#testimonials" className="text-gray-400 hover:text-primary transition-colors">
                   Reviews
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
