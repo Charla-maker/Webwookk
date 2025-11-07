@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Facebook } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const ModernFooter = () => {
   return (
@@ -51,7 +52,7 @@ export const ModernFooter = () => {
               <li>
                 <a href="#testimonials" className="text-gray-400 hover:text-primary transition-colors">
                   Reviews
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

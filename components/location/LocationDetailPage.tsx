@@ -4,7 +4,7 @@ import { useState } from "react";
 import { MapPin, Phone, Clock, DollarSign, Truck, Star, ArrowLeft, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ContactForm } from "@/components/ContactForm";
-import { LocationData } from "@/lib/data/locations";
+import { LocationData, locationsData } from "@/lib/data/locations";
 import Link from "next/link";
 
 type LocationDetailPageProps = {
@@ -272,17 +272,41 @@ export const LocationDetailPage = ({ location }: LocationDetailPageProps) => {
                 suburbs. Click on any suburb below to learn more about our services in that area.
               </p>
               <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {location.suburbs.map((suburb, index) => (
-                  <button
-                    key={index}
-                    className="text-left p-4 bg-gray-50 rounded-lg hover:bg-primary hover:text-white transition-all duration-200 group"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{suburb}</span>
-                      <MapPin className="w-4 h-4 text-primary group-hover:text-white" />
+                {location.suburbs.map((suburb, index) => {
+                  // Find matching suburb location by name
+                  const suburbLocation = locationsData.find(
+                    loc => loc.type === "suburb" && loc.name === suburb
+                  );
+
+                  // If we found a matching suburb page, make it a link
+                  if (suburbLocation) {
+                    return (
+                      <Link
+                        key={index}
+                        href={`/locations/${suburbLocation.id}`}
+                        className="text-left p-4 bg-gray-50 rounded-lg hover:bg-primary hover:text-white transition-all duration-200 group"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">{suburb}</span>
+                          <MapPin className="w-4 h-4 text-primary group-hover:text-white" />
+                        </div>
+                      </Link>
+                    );
+                  }
+
+                  // Otherwise, keep it as a non-clickable button
+                  return (
+                    <div
+                      key={index}
+                      className="text-left p-4 bg-gray-50 rounded-lg"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{suburb}</span>
+                        <MapPin className="w-4 h-4 text-primary" />
+                      </div>
                     </div>
-                  </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
 

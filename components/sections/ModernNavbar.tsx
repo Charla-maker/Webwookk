@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Phone, Menu, X } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const ModernNavbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

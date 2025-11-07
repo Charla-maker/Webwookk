@@ -93,7 +93,7 @@ export const ModernLocations = () => {
             Major Service Regions
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {locationsData.map((area) => (
+            {locationsData.filter(area => area.type === "region").map((area) => (
               <Link
                 key={area.id}
                 href={`/locations/${area.id}`}
