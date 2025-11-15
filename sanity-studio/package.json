@@ -1,0 +1,20 @@
+{
+  "name": "sanity-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "sanity dev",
+    "start": "sanity start",
+    "build": "sanity build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Sanity Studio for SellMyCars",
+  "dependencies": {
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "tsx": "^4.20.6"
+  }
+}

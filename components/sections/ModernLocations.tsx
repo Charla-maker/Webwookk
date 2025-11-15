@@ -1,11 +1,15 @@
-'use client'
-
 import { MapPin, Phone, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { locationsData } from "@/lib/data/locations";
+import { getLocations } from "@/lib/sanity/queries";
 import Link from "next/link";
 
-export const ModernLocations = () => {
+export const ModernLocations = async () => {
+  // Fetch locations from Sanity CMS
+  const sanityLocations = await getLocations();
+
+  // Use Sanity data if available, otherwise fall back to hardcoded data
+  const locations = sanityLocations.length > 0 ? sanityLocations : locationsData;
   const extendedAreas = [
     {
       region: "Central Coast",
@@ -93,15 +97,17 @@ export const ModernLocations = () => {
             Major Service Regions
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {locationsData.filter(area => area.type === "region").map((area) => (
+            {locations.filter(area => area.type === "region").map((area) => {
+              const locationId = typeof area.id === 'string' ? area.id : area.id?.current || area.id;
+              return (
               <Link
-                key={area.id}
-                href={`/locations/${area.id}`}
+                key={locationId}
+                href={`/locations/${locationId}`}
                 className="text-left bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <div className="relative h-48 overflow-hidden">
                   <img
-                    src={area.image}
+                    src={typeof area.image === 'string' ? area.image : (area.image?.asset?.url || 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=800&q=80')}
                     alt={area.name}
                     className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
                   />
@@ -154,7 +160,7 @@ export const ModernLocations = () => {
                   </div>
                 </div>
               </Link>
-            ))}
+            )})}
           </div>
         </div>
 

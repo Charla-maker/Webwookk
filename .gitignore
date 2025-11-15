@@ -45,3 +45,7 @@ next-env.d.ts
 *.njsproj
 *.sln
 *.sw?
+
+# Exclude node_modules in all directories
+node_modules/
+.sanity/

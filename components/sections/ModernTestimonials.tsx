@@ -1,30 +1,46 @@
 import { Star } from "lucide-react";
 import Image from "next/image";
+import { getTestimonials } from "@/lib/sanity/queries";
 
-export const ModernTestimonials = () => {
-  const testimonials = [
-    {
-      name: "Spike Warren",
-      location: "Parramatta, NSW",
-      rating: 5,
-      text: "Fast and easy process! I got a great offer for my car, and they picked it up within hours. Highly recommend!",
-      image: "https://c.animaapp.com/mh5qprntqjweLB/assets/young-successful-businessman-checking-emails-while-having-morning-coffee.jpg",
-    },
-    {
-      name: "Michael Chen",
-      location: "Liverpool, NSW",
-      rating: 5,
-      text: "Fantastic service! The team was professional, and I got cash on the spot. The towing was free and quick too!",
-      image: "https://c.animaapp.com/mh5qprntqjweLB/assets/stylish-man.jpg",
-    },
-    {
-      name: "Nicole Roberts",
-      location: "Blacktown, NSW",
-      rating: 5,
-      text: "Very pleased with the experience! I sold my old truck easily and got a fair price. Will definitely use them again!",
-      image: "https://c.animaapp.com/mh5qprntqjweLB/assets/ready-to-help-and-serve-shot-of-a-young-businesswoman-working-in-a-call-center-.jpg",
-    },
-  ];
+// Fallback testimonials if Sanity CMS is empty
+const fallbackTestimonials = [
+  {
+    name: "Spike Warren",
+    location: "Parramatta, NSW",
+    rating: 5,
+    text: "Fast and easy process! I got a great offer for my car, and they picked it up within hours. Highly recommend!",
+    image: "https://c.animaapp.com/mh5qprntqjweLB/assets/young-successful-businessman-checking-emails-while-having-morning-coffee.jpg",
+  },
+  {
+    name: "Michael Chen",
+    location: "Liverpool, NSW",
+    rating: 5,
+    text: "Fantastic service! The team was professional, and I got cash on the spot. The towing was free and quick too!",
+    image: "https://c.animaapp.com/mh5qprntqjweLB/assets/stylish-man.jpg",
+  },
+  {
+    name: "Nicole Roberts",
+    location: "Blacktown, NSW",
+    rating: 5,
+    text: "Very pleased with the experience! I sold my old truck easily and got a fair price. Will definitely use them again!",
+    image: "https://c.animaapp.com/mh5qprntqjweLB/assets/ready-to-help-and-serve-shot-of-a-young-businesswoman-working-in-a-call-center-.jpg",
+  },
+];
+
+export const ModernTestimonials = async () => {
+  // Fetch testimonials from Sanity CMS
+  const sanityTestimonials = await getTestimonials();
+
+  // Use Sanity data if available, otherwise fall back to hardcoded data
+  const testimonials = sanityTestimonials.length > 0
+    ? sanityTestimonials.map(t => ({
+        name: t.name,
+        location: t.location,
+        rating: t.rating,
+        text: t.text,
+        image: t.image?.asset?.url || fallbackTestimonials[0].image,
+      }))
+    : fallbackTestimonials;
 
   return (
     <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">

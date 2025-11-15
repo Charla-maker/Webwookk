@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
 import { Textarea } from "@/components/ui/Textarea";
@@ -26,14 +26,14 @@ export const ContactForm = ({ locationPage = 'home' }: ContactFormProps) => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [years, setYears] = useState<Array<{value: string, label: string}>>([]);
 
-  useEffect(() => {
+  // Calculate years once - useMemo ensures it's the same on server and client
+  const years = useMemo(() => {
     const currentYear = new Date().getFullYear();
-    setYears(Array.from({ length: 50 }, (_, i) => ({
+    return Array.from({ length: 50 }, (_, i) => ({
       value: String(currentYear - i),
       label: String(currentYear - i),
-    })));
+    }));
   }, []);
 
   const handleChange = (

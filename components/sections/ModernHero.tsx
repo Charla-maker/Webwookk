@@ -1,11 +1,44 @@
-'use client'
-
 import { Button } from "@/components/ui/Button";
 import { CheckCircle, Phone, ArrowRight } from "lucide-react";
 import { ContactForm } from "@/components/ContactForm";
 import Image from "next/image";
+import { getHeroContent } from "@/lib/sanity/queries";
 
-export const ModernHero = () => {
+// Fallback hero content if Sanity CMS is empty
+const fallbackHeroContent = {
+  badge: "#1 Cash For Cars Sydney",
+  headline: "Sell Your Car Get Cash Today",
+  subheadline: "Fast, fair, and hassle-free. We buy any car, truck, ute, or 4x4 in any condition. Free towing. Cash on the spot.",
+  benefits: [
+    "Instant cash offers - no waiting",
+    "Free towing anywhere in Sydney",
+    "Open 365 days - 8am to 8pm"
+  ],
+  stats: [
+    {
+      value: "$100-$30K",
+      label: "Cash Paid",
+      description: "Cash Paid"
+    },
+    {
+      value: "2 Hours",
+      label: "Average Pickup",
+      description: "Average Pickup"
+    },
+    {
+      value: "5000+",
+      label: "Cars Bought",
+      description: "Cars Bought"
+    }
+  ]
+};
+
+export const ModernHero = async () => {
+  // Fetch hero content from Sanity CMS
+  const sanityHeroContent = await getHeroContent();
+
+  // Use Sanity data if available, otherwise fall back to hardcoded data
+  const heroContent = sanityHeroContent || fallbackHeroContent;
   return (
     <section className="relative pt-24 pb-12 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-gray-50 to-white min-h-screen flex items-center">
       <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
@@ -15,33 +48,26 @@ export const ModernHero = () => {
           <div className="space-y-6 animate-fade-in">
             <div className="inline-block">
               <span className="bg-accent text-secondary px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide">
-                #1 Cash For Cars Sydney
+                {heroContent.badge}
               </span>
             </div>
 
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-secondary leading-tight">
-              Sell Your Car
-              <span className="block text-primary">Get Cash Today</span>
+              {heroContent.headline.split(' ').slice(0, 3).join(' ')}
+              <span className="block text-primary">{heroContent.headline.split(' ').slice(3).join(' ')}</span>
             </h1>
 
             <p className="text-lg text-gray-600 leading-relaxed max-w-xl">
-              Fast, fair, and hassle-free. We buy any car, truck, ute, or 4x4 in any condition. 
-              <strong className="text-secondary"> Free towing. Cash on the spot.</strong>
+              {heroContent.subheadline}
             </p>
 
             <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-base text-gray-700">Instant cash offers - no waiting</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-base text-gray-700">Free towing anywhere in Sydney</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
-                <span className="text-base text-gray-700">Open 365 days - 8am to 8pm</span>
-              </div>
+              {heroContent.benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-primary flex-shrink-0" />
+                  <span className="text-base text-gray-700">{benefit}</span>
+                </div>
+              ))}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
@@ -57,18 +83,12 @@ export const ModernHero = () => {
 
             <div className="pt-6 border-t border-gray-200">
               <div className="flex items-center space-x-6">
-                <div>
-                  <div className="text-2xl font-bold text-secondary">$100-$30K</div>
-                  <div className="text-xs text-gray-600">Cash Paid</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-secondary">2 Hours</div>
-                  <div className="text-xs text-gray-600">Average Pickup</div>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold text-secondary">5000+</div>
-                  <div className="text-xs text-gray-600">Cars Bought</div>
-                </div>
+                {heroContent.stats.map((stat, index) => (
+                  <div key={index}>
+                    <div className="text-2xl font-bold text-secondary">{stat.value}</div>
+                    <div className="text-xs text-gray-600">{stat.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
